@@ -1,0 +1,112 @@
+import React from 'react';
+import {
+  View,
+  Text,
+  ImageBackground,
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  Platform,
+  StyleSheet,
+} from 'react-native';
+import { useSelector } from 'react-redux';
+
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Colors from '../../constants/Colors';
+import Card from './Card';
+
+const FoodCard = (props) => {
+  const favFoods = useSelector((state) => state.foods.favFoods);
+  let favOrNot = false;
+
+  if (favFoods.includes(props.id)) {
+    favOrNot = true;
+  }
+
+  let TouchableCmp = TouchableOpacity;
+
+  Platform.OS === 'android' && Platform.Version >= 21
+    ? (TouchableCmp = TouchableNativeFeedback)
+    : TouchableOpacity;
+
+  return (
+    <Card style={styles.foodGroup}>
+      <View style={styles.touchable}>
+        <TouchableCmp onPress={props.onSelect} useForeground>
+          <View>
+            <View style={styles.imageContainer}>
+              <ImageBackground
+                style={styles.image}
+                source={{ uri: props.image }}
+              >
+                {favOrNot ? (
+                  <MaterialCommunityIcons
+                    name="heart"
+                    size={42}
+                    color={Colors.red}
+                    style={styles.heart}
+                  />
+                ) : null}
+              </ImageBackground>
+            </View>
+            <View style={styles.details}>
+              <Text style={styles.title}>{props.title}</Text>
+            </View>
+          </View>
+        </TouchableCmp>
+      </View>
+    </Card>
+  );
+};
+
+const styles = StyleSheet.create({
+  foodGroup: {
+    height: 300,
+    width: 320,
+    maxWidth: 320,
+    margin: 20,
+  },
+  touchable: {
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
+  imageContainer: {
+    width: '100%',
+    height: '82%',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    overflow: 'hidden',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+  details: {
+    alignItems: 'center',
+    height: 50,
+    padding: 5,
+  },
+  title: {
+    fontFamily: 'nordin-regular',
+    fontSize: 35,
+    marginVertical: 1,
+  },
+  actions: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '25%',
+    paddingHorizontal: 20,
+  },
+  heart: {
+    top: 10,
+    alignSelf: 'flex-end',
+    left: -10,
+    shadowColor: '#bbb',
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 2, height: 2 },
+    shadowRadius: 1,
+    elevation: 2,
+  },
+});
+
+export default FoodCard;

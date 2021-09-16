@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "Nordin Keto App",
+    "slug": "nordin-keto-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/nordin-icon.png",
+    "splash": {
+      "image": "./assets/nordin-splash-green-slogan.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0A6D17"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "icon": "./assets/nordin-adaptive-icon.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/nordin-adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/nordin-favicon.png"
+    }
+  }
+}
