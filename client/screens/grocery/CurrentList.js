@@ -13,6 +13,7 @@ import {
   KeyboardAvoidingView,
   useWindowDimensions,
   StyleSheet,
+  Keyboard,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { MaterialIcons, Ionicons, Entypo } from '@expo/vector-icons';
@@ -70,6 +71,7 @@ const CurrentList = (props) => {
   }
 
   const [search, setSearch] = useState('');
+  const [bottomButtons, setBottomButtons] = useState(true);
   const [foodSelection, setFoodSelection] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -164,6 +166,20 @@ const CurrentList = (props) => {
     }
   }, [listLoaded]);
 
+  useEffect(() => {
+    //Keyboard.addListener('keyboardDidShow', console.log('add did show'));
+    Keyboard.addListener('keyboardDidHide', () => {
+      setBottomButtons(true);
+    });
+
+    // cleanup function
+    return () => {
+      Keyboard.removeAllListeners('keyboardDidHide', () => {
+        setBottomButtons(true);
+      });
+    };
+  }, [Keyboard]);
+
   const foodItemsDataFn = (list, foods) => {
     for (let i = 0; i < list.length; i++) {
       for (let j = 0; j < foods.length; j++) {
@@ -186,6 +202,7 @@ const CurrentList = (props) => {
   };
 
   const searchHandler = (food) => {
+    setBottomButtons(false);
     setSearch(food);
   };
 
@@ -319,6 +336,7 @@ const CurrentList = (props) => {
               autoCapitalize="none"
               maxLength={25}
               value={search}
+              onTouchEnd={() => setBottomButtons(false)}
               onChangeText={(value) => searchHandler(value)}
               style={styles.searchTextInput}
             />
@@ -364,6 +382,7 @@ const CurrentList = (props) => {
                   : windowHeight * 0.56,
             },
           ]}
+          //onTouchEnd={() => setBottomButtons(true)}
         >
           <Text style={styles.listHeader}>{listFoodsName}</Text>
           <View style={styles.line}></View>
@@ -372,7 +391,12 @@ const CurrentList = (props) => {
               data={foodItemsData}
               keyExtractor={(item) => item._id}
               renderItem={(itemData) => (
-                <Animated.View style={{ flex: 1, flexDirection: 'row' }}>
+                <Animated.View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                  }}
+                >
                   <View
                     style={
                       fadedItems.includes(itemData.item._id)
@@ -432,24 +456,26 @@ const CurrentList = (props) => {
         </View>
       </View>
       <View style={styles.bottomSection}>
-        <View style={styles.buttonContainer}>
-          <CustomButton
-            color={Colors.greenText}
-            onSelect={() => {
-              setModalVisible(true);
-            }}
-          >
-            <Text style={styles.buttonText}>Save List</Text>
-          </CustomButton>
-          <CustomButton
-            color={Colors.greenText}
-            onSelect={() => {
-              props.navigation.navigate('Saved Lists');
-            }}
-          >
-            <Text style={styles.buttonText}>Load Lists</Text>
-          </CustomButton>
-        </View>
+        {bottomButtons ? (
+          <View style={styles.buttonContainer}>
+            <CustomButton
+              color={Colors.greenText}
+              onSelect={() => {
+                setModalVisible(true);
+              }}
+            >
+              <Text style={styles.buttonText}>Save List</Text>
+            </CustomButton>
+            <CustomButton
+              color={Colors.greenText}
+              onSelect={() => {
+                props.navigation.navigate('Saved Lists');
+              }}
+            >
+              <Text style={styles.buttonText}>Load Lists</Text>
+            </CustomButton>
+          </View>
+        ) : null}
       </View>
       <View style={styles.centered}>
         <Modal animationType="fade" transparent={true} visible={modalVisible}>
@@ -551,6 +577,7 @@ const styles = StyleSheet.create({
   searchLabelContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    backgroundColor: '#f7f7f7',
   },
   searchLabel: {
     fontFamily: 'open-sans-bold',
