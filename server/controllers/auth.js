@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const FavFoods = require('../models/FavFoods');
 const ErrorResponse = require('../utils/errorResponse');
+const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const asyncHandler = require('../middleware/async');
 const GroceryList = require('../models/GroceryList');
@@ -87,7 +88,6 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   const veriCode = user.getVerificationCode();
 
   await user.save({ validateBeforeSave: false });
-  //console.log(user);
 
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -167,11 +167,11 @@ exports.logOut = asyncHandler(async (req, res, next) => {
 //route   PUT /api/auth/updatedetails
 //access  private
 exports.updateDetails = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id).select('+password');
-  const { name, email, password } = req.body;
+  const user = await User.findById(req.user.id);
+  const { name, email } = req.body;
 
-  //Validate email and password
-  if (!name || !email || !password) {
+  //Validate email and password // password requirement removed
+  if (!name || !email) {
     return next(
       new ErrorResponse('Please provide a name, email and password', 400)
     );
@@ -183,10 +183,10 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
   }
 
   //Check if password matches
-  const isMatch = await user.matchPassword(password);
-  if (!isMatch) {
-    return next(new ErrorResponse('Invalid password', 401));
-  }
+  // const isMatch = await user.matchPassword(password);
+  // if (!isMatch) {
+  //   return next(new ErrorResponse('Invalid password', 401));
+  // }
 
   user.name = name;
   user.email = email;
@@ -197,6 +197,42 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
     success: true,
     data: user,
   });
+});
+
+//desc     update password
+//route    PUT /api/auth/password
+//access   Private
+exports.updatePassword = asyncHandler(async (req, res, next) => {
+  let user = await User.findById(req.user.id).select('+password');
+
+  console.log(req.body);
+
+  const { oldPassword, newPassword } = req.body;
+
+  //Check if password matches
+  const isMatch = await user.matchPassword(oldPassword);
+
+  if (!isMatch) {
+    return next(new ErrorResponse('Invalid password', 401));
+  }
+
+  //mongoDB syntax requires bcrypting the password as Model pre save function doesn't apply
+  const salt = await bcrypt.genSalt(10);
+  const encrypted = await bcrypt.hash(newPassword, salt);
+
+  await User.updateOne(
+    { _id: req.user.id },
+    {
+      $set: {
+        password: encrypted,
+        lastModifiedAt: Date.now(),
+      },
+    }
+  );
+
+  user = await User.findById(req.user.id);
+
+  res.status(200).json({ success: true, data: user });
 });
 
 //desc    DELETE user

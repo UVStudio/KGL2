@@ -16,10 +16,13 @@ import * as authActions from '../../store/actions/auth';
 import * as userActions from '../../store/actions/user';
 import Colors from '../../constants/Colors';
 
-import { FORM_INPUT_UPDATE } from '../../store/types';
+import { FORM_INPUT_UPDATE, PASSWORD_INPUT_UPDATE } from '../../store/types';
 
 const formReducer = (state, action) => {
-  if (action.type === FORM_INPUT_UPDATE) {
+  if (
+    action.type === FORM_INPUT_UPDATE ||
+    action.type === PASSWORD_INPUT_UPDATE
+  ) {
     const updatedValues = {
       ...state.inputValues,
       [action.input]: action.value,
@@ -44,6 +47,9 @@ const formReducer = (state, action) => {
 const Profile = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [isProfileUpdating, setIsProfileUpdating] = useState(false);
+  const [isPasswordUpdating, setIsPasswordUpdating] = useState(false);
 
   const user = useSelector((state) => state.user.user);
 
@@ -53,15 +59,30 @@ const Profile = (props) => {
     inputValues: {
       name: '',
       email: '',
-      password: '',
     },
     inputValidities: {
       name: false,
       email: false,
-      password: false,
     },
     formIsValid: false,
   });
+
+  const [passwordFormState, dispatchPasswordFormState] = useReducer(
+    formReducer,
+    {
+      inputValues: {
+        oldPassword: '',
+        newPassword: '',
+        confirmNewPassword: '',
+      },
+      inputValidities: {
+        oldPassword: false,
+        newPassword: false,
+        confirmNewPassword: false,
+      },
+      formIsValid: false,
+    }
+  );
 
   useEffect(() => {
     const getUser = async () => {
@@ -77,14 +98,20 @@ const Profile = (props) => {
     }
   }, [error]);
 
+  useEffect(() => {
+    if (message) {
+      Alert.alert('Note', message, [{ text: 'Okay' }]);
+    }
+  }, [message]);
+
   const profileUpdateHandler = async () => {
     setError(null);
+    setIsProfileUpdating(true);
     try {
       await dispatch(
         userActions.updateProfile(
           formState.inputValues.name,
-          formState.inputValues.email,
-          formState.inputValues.password
+          formState.inputValues.email
         )
       );
       if (!error) {
@@ -93,7 +120,7 @@ const Profile = (props) => {
     } catch (err) {
       setError(err.message);
     }
-    setIsLoading(false);
+    setIsProfileUpdating(false);
   };
 
   const inputChangeHandler = useCallback(
@@ -107,6 +134,41 @@ const Profile = (props) => {
     },
     [dispatchFormState]
   );
+
+  const passwordInputChangeHandler = useCallback(
+    (inputIdentifier, inputValue, inputValidity) => {
+      dispatchPasswordFormState({
+        type: PASSWORD_INPUT_UPDATE,
+        value: inputValue,
+        isValid: inputValidity,
+        input: inputIdentifier,
+      });
+    },
+    [dispatchPasswordFormState]
+  );
+
+  const passwordUpdateHandler = async () => {
+    setError(null);
+    setMessage(null);
+    setIsPasswordUpdating(true);
+    if (
+      passwordFormState.inputValues.newPassword !==
+      passwordFormState.inputValues.confirmNewPassword
+    ) {
+      setError('Please make sure your new password inputs are identical.');
+      setIsPasswordUpdating(false);
+      return;
+    }
+
+    try {
+      await dispatch(userActions.updatePassword(passwordFormState.inputValues));
+      setMessage('Password Updated.');
+    } catch (err) {
+      setError(err.message);
+    }
+    setMessage(null);
+    setIsPasswordUpdating(false);
+  };
 
   if (isLoading) {
     return (
@@ -147,29 +209,83 @@ const Profile = (props) => {
               initialValue={user ? user.email : null}
               initiallyValid={!!user}
             />
+            {isProfileUpdating ? (
+              <View style={{ marginVertical: 20, width: 240 }}>
+                <CustomButton color={Colors.greenText}>
+                  <Text style={styles.buttonText}>Saving Profile...</Text>
+                </CustomButton>
+              </View>
+            ) : (
+              <View style={{ marginVertical: 20, width: 240 }}>
+                <CustomButton
+                  color={Colors.greenText}
+                  onSelect={profileUpdateHandler}
+                >
+                  <Text style={styles.buttonText}>Save Profile</Text>
+                </CustomButton>
+              </View>
+            )}
+            <Text style={styles.profileLabel}>Update Password</Text>
             <Input
-              id="password"
-              label="password"
+              id="oldPassword"
+              label="current password"
               keyboardType="default"
               secureTextEntry
               minLength={6}
               autoCapitalize="none"
-              errorText="Please enter password"
-              onInputChange={inputChangeHandler}
+              errorText="Please enter current password"
+              onInputChange={passwordInputChangeHandler}
               initialValue=""
               required
               style={styles.textInput}
               initiallyValid={!!user}
             />
-            <View style={{ marginVertical: 20, width: 200 }}>
-              <CustomButton
-                color={Colors.greenText}
-                onSelect={profileUpdateHandler}
-              >
-                <Text style={styles.buttonText}>Save Profile</Text>
-              </CustomButton>
-            </View>
+            <Input
+              id="newPassword"
+              label="new password"
+              keyboardType="default"
+              secureTextEntry
+              minLength={6}
+              autoCapitalize="none"
+              errorText="Please enter new password"
+              onInputChange={passwordInputChangeHandler}
+              initialValue=""
+              required
+              style={styles.textInput}
+              initiallyValid={!!user}
+            />
+            <Input
+              id="confirmNewPassword"
+              label="confirm new password"
+              keyboardType="default"
+              secureTextEntry
+              minLength={6}
+              autoCapitalize="none"
+              errorText="Please confirm new password"
+              onInputChange={passwordInputChangeHandler}
+              initialValue=""
+              required
+              style={styles.textInput}
+              initiallyValid={!!user}
+            />
+            {isPasswordUpdating ? (
+              <View style={{ marginVertical: 20, width: 240 }}>
+                <CustomButton color={Colors.greenText}>
+                  <Text style={styles.buttonText}>Updating...</Text>
+                </CustomButton>
+              </View>
+            ) : (
+              <View style={{ marginVertical: 20, width: 240 }}>
+                <CustomButton
+                  color={Colors.greenText}
+                  onSelect={passwordUpdateHandler}
+                >
+                  <Text style={styles.buttonText}>Update Password</Text>
+                </CustomButton>
+              </View>
+            )}
           </View>
+
           <View style={styles.container}>
             <View style={styles.buttonContainer}>
               <CustomButton
@@ -231,7 +347,7 @@ const styles = StyleSheet.create({
     fontFamily: 'open-sans',
   },
   buttonContainer: {
-    width: 200,
+    width: 240,
     marginVertical: 4,
   },
   container: {

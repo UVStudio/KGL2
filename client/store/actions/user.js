@@ -31,11 +31,7 @@ export const updateProfile = (name, email, password) => {
           'Content-Type': 'application/json',
         },
       };
-      const response = await axios.put(
-        `${CURRENT_IP}/api/auth/updatedetails`,
-        body,
-        config
-      );
+      await axios.put(`${CURRENT_IP}/api/auth/updatedetails`, body, config);
 
       dispatch({
         type: UPDATE_PROFILE,
@@ -46,6 +42,34 @@ export const updateProfile = (name, email, password) => {
       });
     } catch (err) {
       throw new Error('Update did not occurr due to an error');
+    }
+  };
+};
+
+export const updatePassword = (password) => {
+  return async () => {
+    const { oldPassword, newPassword, confirmNewPassword } = password;
+
+    //console.log(password);
+
+    if (newPassword !== confirmNewPassword) {
+      return new Error(
+        'Please check your new password fields to make sure they are the same.'
+      );
+    }
+
+    const body = JSON.stringify({ oldPassword, newPassword });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      await axios.put(`${CURRENT_IP}/api/auth/password`, body, config);
+    } catch (err) {
+      throw new Error('Cannot connect with server. Please try again.');
     }
   };
 };

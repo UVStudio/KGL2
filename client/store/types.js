@@ -22,6 +22,7 @@ export const AUTHENTICATE = 'AUTHENTICATE';
 export const LOGOUT = 'LOGOUT';
 export const SET_DID_TRY_AL = 'SET_DID_TRY_AL';
 export const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
+export const PASSWORD_INPUT_UPDATE = 'PASSWORD_INPUT_UPDATE';
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 
 //Components

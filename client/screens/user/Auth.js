@@ -113,98 +113,102 @@ const Auth = (props) => {
     [dispatchFormState]
   );
 
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <LoadingScreen />
+      </View>
+    );
+  }
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : null}
       keyboardVerticalOffset={15}
       style={styles.screen}
     >
-      {isLoading ? (
-        <LoadingScreen />
-      ) : (
-        <Card style={styles.authContainer}>
-          <ScrollView style={styles.scrollView}>
-            {isSignup ? (
-              <Input
-                id="name"
-                label="name"
-                keyboardType="default"
-                autoCapitalize="none"
-                errorText="Please enter your name"
-                onInputChange={inputChangeHandler}
-                initialValue=""
-                required
-                style={styles.textInput}
-              />
-            ) : null}
+      <Card style={styles.authContainer}>
+        <ScrollView style={styles.scrollView}>
+          {isSignup ? (
             <Input
-              id="email"
-              label="e-mail"
-              keyboardType="email-address"
+              id="name"
+              label="name"
+              keyboardType="default"
               autoCapitalize="none"
-              errorText="Please enter a valid email"
+              errorText="Please enter your name"
               onInputChange={inputChangeHandler}
               initialValue=""
               required
               style={styles.textInput}
             />
+          ) : null}
+          <Input
+            id="email"
+            label="e-mail"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            errorText="Please enter a valid email"
+            onInputChange={inputChangeHandler}
+            initialValue=""
+            required
+            style={styles.textInput}
+          />
+          <Input
+            id="password"
+            label="password"
+            keyboardType="default"
+            secureTextEntry
+            autoCapitalize="none"
+            minLength={6}
+            errorText="Please enter a valid password"
+            onInputChange={inputChangeHandler}
+            initialValue=""
+            required
+            style={styles.textInput}
+          />
+          {isSignup ? (
             <Input
-              id="password"
-              label="password"
+              id="password2"
+              label="confirm password"
               keyboardType="default"
               secureTextEntry
               autoCapitalize="none"
               minLength={6}
-              errorText="Please enter a valid password"
+              errorText="Please confirm your password"
               onInputChange={inputChangeHandler}
               initialValue=""
               required
               style={styles.textInput}
             />
-            {isSignup ? (
-              <Input
-                id="password2"
-                label="confirm password"
-                keyboardType="default"
-                secureTextEntry
-                autoCapitalize="none"
-                minLength={6}
-                errorText="Please confirm your password"
-                onInputChange={inputChangeHandler}
-                initialValue=""
-                required
-                style={styles.textInput}
-              />
-            ) : null}
-            <View style={styles.buttonGroupContainer}>
-              <View style={styles.buttonContainer}>
-                <CustomButton onSelect={authHandler}>
-                  <Text style={styles.buttonText}>
-                    {isSignup ? 'Register' : 'Login'}
-                  </Text>
-                </CustomButton>
-              </View>
-              <View style={styles.buttonContainer}>
-                <CustomButton
-                  onSelect={() => setIsSignup((prevState) => !prevState)}
-                >
-                  <Text style={styles.buttonText}>{`Switch to ${
-                    isSignup ? 'Login' : 'Register'
-                  }`}</Text>
-                </CustomButton>
-              </View>
-              <View style={styles.buttonContainer}>
-                <CustomButton
-                  title="Forgot Password"
-                  onSelect={() => props.navigation.navigate('ForgotPassword')}
-                >
-                  <Text style={styles.buttonText}>Forgot Password</Text>
-                </CustomButton>
-              </View>
+          ) : null}
+          <View style={styles.buttonGroupContainer}>
+            <View style={styles.buttonContainer}>
+              <CustomButton onSelect={authHandler}>
+                <Text style={styles.buttonText}>
+                  {isSignup ? 'Register' : 'Login'}
+                </Text>
+              </CustomButton>
             </View>
-          </ScrollView>
-        </Card>
-      )}
+            <View style={styles.buttonContainer}>
+              <CustomButton
+                onSelect={() => setIsSignup((prevState) => !prevState)}
+              >
+                <Text style={styles.buttonText}>{`Switch to ${
+                  isSignup ? 'Login' : 'Register'
+                }`}</Text>
+              </CustomButton>
+            </View>
+            <View style={styles.buttonContainer}>
+              <CustomButton
+                title="Forgot Password"
+                onSelect={() => props.navigation.navigate('ForgotPassword')}
+              >
+                <Text style={styles.buttonText}>Forgot Password</Text>
+              </CustomButton>
+            </View>
+          </View>
+        </ScrollView>
+      </Card>
     </KeyboardAvoidingView>
   );
 };
