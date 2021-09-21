@@ -3,8 +3,6 @@ const FavFoods = require('../models/FavFoods');
 const GroceryList = require('../models/GroceryList');
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/errorResponse');
-const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
 
 //desc    DELETE user by ID
 //route   DELETE /api/admin/:id
