@@ -50,6 +50,7 @@ const Profile = (props) => {
   const [message, setMessage] = useState(null);
   const [isProfileUpdating, setIsProfileUpdating] = useState(false);
   const [isPasswordUpdating, setIsPasswordUpdating] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const user = useSelector((state) => state.user.user);
 
@@ -168,6 +169,16 @@ const Profile = (props) => {
     }
     setMessage(null);
     setIsPasswordUpdating(false);
+  };
+
+  const logOutHandler = async () => {
+    setError(null);
+    setIsLoggingOut(true);
+    try {
+      await dispatch(authActions.logout());
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   if (isLoading) {
@@ -297,16 +308,22 @@ const Profile = (props) => {
                 <Text style={styles.buttonText}>Contact Us</Text>
               </CustomButton>
             </View>
-            <View style={styles.buttonContainer}>
-              <CustomButton
-                color={Colors.greenText}
-                onSelect={() => {
-                  dispatch(authActions.logout());
-                }}
-              >
-                <Text style={styles.buttonText}>Logout</Text>
-              </CustomButton>
-            </View>
+            {isLoggingOut ? (
+              <View style={styles.buttonContainer}>
+                <CustomButton color={Colors.greenText}>
+                  <Text style={styles.buttonText}>Logging Out..</Text>
+                </CustomButton>
+              </View>
+            ) : (
+              <View style={styles.buttonContainer}>
+                <CustomButton
+                  color={Colors.greenText}
+                  onSelect={() => logOutHandler()}
+                >
+                  <Text style={styles.buttonText}>Logout</Text>
+                </CustomButton>
+              </View>
+            )}
           </View>
         </ScrollView>
       </View>

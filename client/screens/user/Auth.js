@@ -17,6 +17,7 @@ import CustomButton from '../../components/UI/CustomButton';
 import * as authActions from '../../store/actions/auth';
 
 import { FORM_INPUT_UPDATE } from '../../store/types';
+import { set } from 'react-native-reanimated';
 
 const formReducer = (state, action) => {
   if (action.type === FORM_INPUT_UPDATE) {
@@ -45,6 +46,8 @@ const Auth = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(undefined);
   const [isSignup, setIsSignup] = useState(false);
+  const [isLogging, setIsLogging] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -80,25 +83,27 @@ const Auth = (props) => {
         );
         return;
       }
+      setIsRegistering(true);
       action = authActions.register(
         formState.inputValues.name,
         formState.inputValues.email,
         formState.inputValues.password
       );
     } else {
+      setIsLogging(true);
       action = authActions.login(
         formState.inputValues.email,
         formState.inputValues.password
       );
     }
     setError(null);
-    setIsLoading(true);
     try {
       await dispatch(action);
     } catch (err) {
       setError(err.message);
-      setIsLoading(false);
     }
+    setIsLogging(false);
+    setIsRegistering(false);
   };
 
   const inputChangeHandler = useCallback(
@@ -185,7 +190,13 @@ const Auth = (props) => {
             <View style={styles.buttonContainer}>
               <CustomButton onSelect={authHandler}>
                 <Text style={styles.buttonText}>
-                  {isSignup ? 'Register' : 'Login'}
+                  {isSignup
+                    ? isRegistering
+                      ? 'Registering...'
+                      : 'Register'
+                    : isLogging
+                    ? 'Logging in..'
+                    : 'Login'}
                 </Text>
               </CustomButton>
             </View>
