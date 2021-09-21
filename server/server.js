@@ -25,6 +25,7 @@ const users = require('./routes/users');
 const foods = require('./routes/foods');
 const favFoods = require('./routes/favFoods');
 const groceryList = require('./routes/groceryList');
+const admin = require('./routes/admin');
 
 //Routes setup
 app.get('/', (req, res) => {
@@ -57,6 +58,7 @@ app.use('/api/users', users);
 app.use('/api/foods', foods);
 app.use('/api/favFoods', favFoods);
 app.use('/api/groceryList', groceryList);
+app.use('/api/admin', admin);
 
 //custom error handling middleware
 app.use(errorHandler);

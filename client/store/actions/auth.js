@@ -44,7 +44,7 @@ export const register = (name, email, password) => {
       await saveDataToStorage(resData.token, resData.user._id, expirationDate);
       await initialGroceryList([], 'grocery list');
     } catch (err) {
-      throw new Error('Cannot connect with server. Please try again.');
+      throw new Error(err.response.data.error);
     }
   };
 };
@@ -69,7 +69,7 @@ export const login = (email, password) => {
       const expirationDate = resData.options.expires;
       saveDataToStorage(resData.token, resData.user._id, expirationDate);
     } catch (err) {
-      throw new Error('Cannot connect with server. Please try again.');
+      throw new Error(err.response.data.error);
     }
   };
 };
@@ -95,7 +95,7 @@ export const forgotPassword = (email) => {
         code: veriCode,
       });
     } catch (err) {
-      throw new Error('Cannot connect with server. Please try again.');
+      throw new Error(err.response.data.error);
     }
   };
 };

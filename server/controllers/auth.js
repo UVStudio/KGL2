@@ -92,7 +92,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
   const mailText = `Here is your 4 digit verification code: <strong>${veriCode}</strong>`;
-  console.log(veriCode);
+  //console.log(veriCode);
 
   try {
     await sgMail.send({
@@ -170,7 +170,7 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id);
   const { name, email } = req.body;
 
-  //Validate email and password // password requirement removed
+  //Validate email
   if (!name || !email) {
     return next(
       new ErrorResponse('Please provide a name, email and password', 400)
@@ -204,8 +204,6 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
 //access   Private
 exports.updatePassword = asyncHandler(async (req, res, next) => {
   let user = await User.findById(req.user.id).select('+password');
-
-  console.log(req.body);
 
   const { oldPassword, newPassword } = req.body;
 
