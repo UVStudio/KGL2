@@ -74,7 +74,6 @@ const CurrentList = (props) => {
   const [bottomButtons, setBottomButtons] = useState(true);
   const [foodSelection, setFoodSelection] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState(undefined);
   const [toReload, setToReLoad] = useState(false);
   const [fadedItems, setFadedItems] = useState([]);
@@ -85,7 +84,7 @@ const CurrentList = (props) => {
 
   const loadData = async () => {
     setError(null);
-    setIsRefreshing(true);
+    setIsLoading(true);
     try {
       await dispatch(foodsActions.getFoods());
       await dispatch(foodsActions.getFavs());
@@ -93,8 +92,10 @@ const CurrentList = (props) => {
     } catch (err) {
       setError(err.message);
     }
-    setIsRefreshing(false);
+    setIsLoading(false);
   };
+
+  //console.log('lastModifiedlist: ', lastModifiedList);
 
   useEffect(() => {
     setIsLoading(true);
@@ -167,7 +168,6 @@ const CurrentList = (props) => {
   }, [listLoaded]);
 
   useEffect(() => {
-    //Keyboard.addListener('keyboardDidShow', console.log('add did show'));
     Keyboard.addListener('keyboardDidHide', () => {
       setBottomButtons(true);
     });

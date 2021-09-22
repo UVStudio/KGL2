@@ -2,6 +2,7 @@
   "expo": {
     "name": "Nordin Keto App",
     "slug": "nordin-keto-app",
+    "privacy": "public",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/nordin-icon.png",
