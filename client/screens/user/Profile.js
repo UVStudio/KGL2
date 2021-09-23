@@ -150,7 +150,7 @@ const Profile = (props) => {
 
   //regex for min 8, max 15, 1 lower, 1 upper, 1 num, 1 special
   const pwRegex = new RegExp(
-    /^(?=.\d)(?=.[a-z])(?=.[A-Z])(?=.[^a-zA-Z0-9])(?!.*\s).{8,15}$/
+    '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,15})'
   );
 
   const passwordUpdateHandler = async () => {
@@ -166,10 +166,11 @@ const Profile = (props) => {
       return;
     }
 
-    if (!pwRegex.test(formState.inputValues.password)) {
+    if (!pwRegex.test(passwordFormState.inputValues.newPassword)) {
+      setIsPasswordUpdating(false);
       Alert.alert(
         'We need a strong Password',
-        'Please make sure your password has at least 8 and fewer than 16 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.',
+        'Please make sure your password is between 8 and 15 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.',
         [{ text: 'Okay' }]
       );
       return;
@@ -178,11 +179,13 @@ const Profile = (props) => {
     try {
       await dispatch(userActions.updatePassword(passwordFormState.inputValues));
       setMessage('Password Updated.');
+      console.log('formState: ', passwordFormState);
     } catch (err) {
+      setIsPasswordUpdating(false);
       setError(err.message);
     }
-    setMessage(null);
     setIsPasswordUpdating(false);
+    setMessage(null);
   };
 
   const logOutHandler = async () => {
@@ -256,7 +259,7 @@ const Profile = (props) => {
               label="current password"
               keyboardType="default"
               secureTextEntry
-              minLength={6}
+              minLength={8}
               autoCapitalize="none"
               errorText="Please enter current password"
               onInputChange={passwordInputChangeHandler}
@@ -270,7 +273,7 @@ const Profile = (props) => {
               label="new password"
               keyboardType="default"
               secureTextEntry
-              minLength={6}
+              minLength={8}
               autoCapitalize="none"
               errorText="Please enter new password"
               onInputChange={passwordInputChangeHandler}
@@ -284,7 +287,7 @@ const Profile = (props) => {
               label="confirm new password"
               keyboardType="default"
               secureTextEntry
-              minLength={6}
+              minLength={8}
               autoCapitalize="none"
               errorText="Please confirm new password"
               onInputChange={passwordInputChangeHandler}

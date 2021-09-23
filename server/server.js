@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./db/db');
@@ -28,10 +29,16 @@ const groceryList = require('./routes/groceryList');
 const admin = require('./routes/admin');
 
 //Routes setup
+// app.get('/', (req, res) => {
+//   console.log('Route connected');
+//   res.send('Route connected');
+// });
+
 app.get('/', (req, res) => {
-  console.log('Route connected');
-  res.send('Route connected');
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
+
+app.use(express.static(__dirname + '/view'));
 
 app.get('/error', (req, res) => {
   throw new Error('broken');
