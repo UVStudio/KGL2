@@ -14,6 +14,7 @@ const SavedLists = (props) => {
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
+        <Text style={styles.selectLabel}>Select which list to load</Text>
         <FlatList
           data={groceryLists}
           keyExtractor={(item) => item._id}
@@ -49,6 +50,12 @@ const styles = StyleSheet.create({
     width: 280,
     marginVertical: 9,
     borderRadius: 12,
+  },
+  selectLabel: {
+    fontFamily: 'open-sans-bold',
+    marginVertical: 4,
+    paddingTop: 5,
+    fontSize: 17,
   },
   listText: {
     fontSize: 20,

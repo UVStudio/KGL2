@@ -13,7 +13,7 @@ exports.deleteUserById = asyncHandler(async (req, res, next) => {
 
   if (user.role !== 'admin') {
     return next(
-      new ErrorResponse('User is not authorized to delete users.', 400)
+      new ErrorResponse(`${user} is not authorized to delete users.`, 400)
     );
   }
 

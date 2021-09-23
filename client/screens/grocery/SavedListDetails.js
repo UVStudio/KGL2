@@ -9,7 +9,6 @@ import * as foodsAction from '../../store/actions/foods';
 const SavedListDetails = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(undefined);
-  const [toReload, setToReLoad] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
@@ -130,9 +129,9 @@ const SavedListDetails = (props) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ marginVertical: 5, marginBottom: 10 }}>
+      <View style={styles.buttonContainer}>
         <CustomButton
-          style={{ width: 200 }}
+          style={{ width: 350 }}
           onSelect={() => bringListIdToFront(listId, listName)}
         >
           <Text style={styles.buttonText}>Load this list</Text>
@@ -153,10 +152,7 @@ const SavedListDetails = (props) => {
         )}
       />
       <View style={styles.buttonContainer}>
-        <CustomButton
-          style={{ width: 200 }}
-          onSelect={() => deleteListByIdHandler(listId)}
-        >
+        <CustomButton onSelect={() => deleteListByIdHandler(listId)}>
           <Text style={styles.buttonText}>Delete this list</Text>
         </CustomButton>
       </View>
@@ -185,7 +181,7 @@ const styles = StyleSheet.create({
   },
   listFoodContainer: {
     marginVertical: 5,
-    width: 200,
+    width: 250,
   },
   listText: {
     fontSize: 20,
@@ -194,6 +190,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginBottom: 20,
+    width: 250,
   },
   buttonText: {
     fontSize: 19,
