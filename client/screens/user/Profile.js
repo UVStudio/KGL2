@@ -148,10 +148,9 @@ const Profile = (props) => {
     [dispatchPasswordFormState]
   );
 
-  //regex for min 8, max 15, 1 lower, 1 upper, 1 num, 1 special
-  const pwRegex = new RegExp(
-    '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,15})'
-  );
+  //regex for min 8, max 15, 1 lower, 1 upper, 1 num
+  const pwRegex = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,15})');
+  //'(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,15})'
 
   const passwordUpdateHandler = async () => {
     setError(null);
@@ -170,7 +169,7 @@ const Profile = (props) => {
       setIsPasswordUpdating(false);
       Alert.alert(
         'We need a strong Password',
-        'Please make sure your password is between 8 and 15 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.',
+        'Please make sure your password is between 8 and 15 characters, with at least 1 uppercase letter, 1 lowercase letter and  1 number.',
         [{ text: 'Okay' }]
       );
       return;
@@ -179,7 +178,6 @@ const Profile = (props) => {
     try {
       await dispatch(userActions.updatePassword(passwordFormState.inputValues));
       setMessage('Password Updated.');
-      console.log('formState: ', passwordFormState);
     } catch (err) {
       setIsPasswordUpdating(false);
       setError(err.message);

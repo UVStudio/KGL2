@@ -17,7 +17,6 @@ import CustomButton from '../../components/UI/CustomButton';
 import * as authActions from '../../store/actions/auth';
 
 import { FORM_INPUT_UPDATE } from '../../store/types';
-import { set } from 'react-native-reanimated';
 
 const formReducer = (state, action) => {
   if (action.type === FORM_INPUT_UPDATE) {
