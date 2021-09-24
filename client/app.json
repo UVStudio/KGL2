@@ -17,14 +17,19 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "bundleIdentifier": "com.ketogrocerylistapp.nordin",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "package": "com.ketogrocerylistapp.nordin",
+      "versionCode": 1,
       "icon": "./assets/nordin-adaptive-icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/nordin-adaptive-icon.png",
         "backgroundColor": "#0A6D17"
-      }
+      },
+      "permissions": ["READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"]
     },
     "web": {
       "favicon": "./assets/nordin-favicon.png"
