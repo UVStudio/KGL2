@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "Nordin Keto App",
+    "description": "An easy to use Ketogenic diet grocery shopping list app.",
     "slug": "nordin-keto-app",
     "privacy": "public",
     "version": "1.0.0",
@@ -22,7 +23,7 @@
       "icon": "./assets/nordin-adaptive-icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/nordin-adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#0A6D17"
       }
     },
     "web": {
