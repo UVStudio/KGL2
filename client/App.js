@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LogBox } from 'react-native';
-import { AppLoading } from 'expo';
+import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -39,6 +39,7 @@ const App = () => {
         onFinish={() => {
           setFontLoaded(true);
         }}
+        onError={console.warn}
       />
     );
   }
