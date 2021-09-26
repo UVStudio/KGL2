@@ -7,12 +7,15 @@ import {
   TouchableNativeFeedback,
   Platform,
   StyleSheet,
+  Dimensions,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 import Card from './Card';
+
+const windowWidth = Dimensions.get('window').width;
 
 const FoodCard = (props) => {
   const favFoods = useSelector((state) => state.foods.favFoods);
@@ -61,7 +64,7 @@ const FoodCard = (props) => {
 const styles = StyleSheet.create({
   foodGroup: {
     height: 300,
-    width: 320,
+    width: windowWidth * 0.8,
     maxWidth: 320,
     margin: 20,
   },

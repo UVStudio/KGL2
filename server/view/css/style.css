@@ -50,6 +50,10 @@ img {
   width: 100%;
 }
 
+.navbar-img {
+  width: 50px;
+}
+
 /* Utilities */
 .container {
   max-width: 1100px;
@@ -71,6 +75,10 @@ img {
   font-size: 3rem;
   line-height: 1.2;
   margin-bottom: 1rem;
+}
+
+.beta {
+  font-size: 1.8rem;
 }
 
 .title {
