@@ -51,7 +51,7 @@ img {
 }
 
 .navbar-img {
-  width: 50px;
+  width: 60px;
 }
 
 /* Utilities */
@@ -331,7 +331,7 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.7rem 2rem;
+  padding: 0.4rem 2rem;
   position: fixed;
   z-index: 1;
   width: 100%;

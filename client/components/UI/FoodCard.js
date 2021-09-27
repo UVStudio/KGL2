@@ -17,6 +17,22 @@ import Card from './Card';
 
 const windowWidth = Dimensions.get('window').width;
 
+const dynamicCardWidth = () => {
+  if (windowWidth > 600) {
+    return windowWidth * 0.6;
+  } else {
+    return windowWidth * 0.9;
+  }
+};
+
+const dynamicCardHeight = () => {
+  if (windowWidth > 600) {
+    return 500;
+  } else {
+    return 340;
+  }
+};
+
 const FoodCard = (props) => {
   const favFoods = useSelector((state) => state.foods.favFoods);
   let favOrNot = false;
@@ -61,11 +77,13 @@ const FoodCard = (props) => {
   );
 };
 
+console.log('width: ', windowWidth);
+console.log('dyn width: ', dynamicCardWidth());
+
 const styles = StyleSheet.create({
   foodGroup: {
-    height: 300,
-    width: windowWidth * 0.8,
-    maxWidth: 320,
+    height: dynamicCardHeight(),
+    width: dynamicCardWidth(),
     margin: 20,
   },
   touchable: {
@@ -74,7 +92,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '100%',
-    height: '82%',
+    height: dynamicCardHeight() * 0.85,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     overflow: 'hidden',

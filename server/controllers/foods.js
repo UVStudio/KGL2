@@ -116,3 +116,21 @@ exports.getFoods = asyncHandler(async (req, res, next) => {
     data: foods,
   });
 });
+
+//desc    GET food by ID
+//route   GET /api/foods/:id
+//access  public
+exports.getFoodById = asyncHandler(async (req, res, next) => {
+  let food = await Food.findById({ _id: req.params.id });
+
+  if (!food) {
+    return next(
+      new ErrorResponse(`Food not found with id of ${req.params.id}`, 404)
+    );
+  }
+
+  res.status(200).json({
+    success: true,
+    data: food,
+  });
+});

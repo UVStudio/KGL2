@@ -7,6 +7,7 @@ import {
   ImageBackground,
   ActivityIndicator,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { PieChart } from 'react-native-svg-charts';
@@ -17,11 +18,20 @@ import * as foodActions from '../../store/actions/foods';
 import CustomButton from '../../components/UI/CustomButton';
 import Colors from '../../constants/Colors';
 
+const windowWidth = Dimensions.get('window').width;
+
+const dynamicDeviceWidth = () => {
+  if (windowWidth > 600) {
+    return windowWidth * 0.6;
+  } else {
+    return windowWidth;
+  }
+};
+
 const FoodDetails = (props) => {
   const [toReload, setToReLoad] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(undefined);
-  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const foodName = props.route.params.name;
   const selectedFood = useSelector((state) =>
@@ -52,20 +62,19 @@ const FoodDetails = (props) => {
 
   const favHandler = async (id) => {
     setError(null);
-    setIsRefreshing(true);
+
     setIsLoading(true);
     try {
       if (!favOrNot) {
         await dispatch(foodActions.addFav(id));
-        setIsLoading(false);
       } else {
         await dispatch(foodActions.deleteFav(id));
-        setIsLoading(false);
       }
     } catch (err) {
       setError(err.message);
     }
-    setIsRefreshing(false);
+
+    setIsLoading(false);
   };
 
   const addFoodToCurrMutableListHandler = (lists, currentList, foodId) => {
@@ -153,106 +162,112 @@ const FoodDetails = (props) => {
   }
 
   return (
-    <ScrollView style={{ backgroundColor: '#fff' }}>
-      <ImageBackground
-        style={styles.image}
-        source={{ uri: selectedFood.imageUrl }}
+    <View style={styles.foodContainer}>
+      <ScrollView
+        style={({ backgroundColor: 'yellow' }, { width: dynamicDeviceWidth() })}
       >
-        {favOrNot ? (
-          <MaterialCommunityIcons
-            name="heart"
-            size={42}
-            color={Colors.red}
-            style={styles.heart}
-          />
-        ) : null}
-      </ImageBackground>
-      <View style={styles.action}>
-        <Text style={styles.title}>{foodName}</Text>
-        <View style={{ marginTop: 12 }}>
-          {!isLoading ? (
-            <CustomButton onSelect={() => favHandler(selectedFood._id)}>
-              <Text style={styles.buttonText}>
-                {favOrNot ? 'Remove from favourites' : 'Add to favourites'}
-              </Text>
-            </CustomButton>
-          ) : (
-            <View
-              style={{
-                height: 40.5,
-              }}
-            >
-              <ActivityIndicator size="small" color="#555" top={10} />
-            </View>
-          )}
-        </View>
-        {!onListOrNot ? (
+        <ImageBackground
+          style={styles.image}
+          source={{ uri: selectedFood.imageUrl }}
+        >
+          {favOrNot ? (
+            <MaterialCommunityIcons
+              name="heart"
+              size={42}
+              color={Colors.red}
+              style={styles.heart}
+            />
+          ) : null}
+        </ImageBackground>
+        <View style={styles.action}>
+          <Text style={styles.title}>{foodName}</Text>
           <View style={{ marginTop: 12 }}>
-            <CustomButton
-              onSelect={() =>
-                addFoodToCurrMutableListHandler(
-                  mutableGroceryLists,
-                  currentList,
-                  selectedFood._id
-                )
-              }
-            >
-              <Text style={styles.buttonText}>Add to today's grocery list</Text>
-            </CustomButton>
+            {!isLoading ? (
+              <CustomButton onSelect={() => favHandler(selectedFood._id)}>
+                <Text style={styles.buttonText}>
+                  {favOrNot ? 'Remove from favourites' : 'Add to favourites'}
+                </Text>
+              </CustomButton>
+            ) : (
+              <View
+                style={{
+                  height: 40.5,
+                }}
+              >
+                <ActivityIndicator size="small" color="#555" top={10} />
+              </View>
+            )}
           </View>
-        ) : null}
-      </View>
-      <View style={styles.legendContainer}>
-        <View style={styles.legendInnerContainer}>
-          <View style={styles.legendRow}>
-            <View style={styles.macroContainer}>
-              <MaterialCommunityIcons
-                name="rectangle"
-                size={35}
-                color={Colors.purple}
-              />
-              <Text style={styles.macroText}>Protein</Text>
+          {!onListOrNot ? (
+            <View style={{ marginTop: 12 }}>
+              <CustomButton
+                onSelect={() =>
+                  addFoodToCurrMutableListHandler(
+                    mutableGroceryLists,
+                    currentList,
+                    selectedFood._id
+                  )
+                }
+              >
+                <Text style={styles.buttonText}>
+                  Add to today's grocery list
+                </Text>
+              </CustomButton>
             </View>
-            <View style={styles.macroContainer}>
-              <MaterialCommunityIcons
-                name="rectangle"
-                size={35}
-                color={Colors.pink}
-              />
-              <Text style={styles.macroText}>Fats</Text>
-            </View>
-          </View>
-          <View style={styles.legendRow}>
-            <View style={styles.macroContainer}>
-              <MaterialCommunityIcons
-                name="rectangle"
-                size={35}
-                color={Colors.green}
-              />
-              <Text style={styles.macroText}>Fiber</Text>
-            </View>
-            <View style={styles.macroContainer}>
-              <MaterialCommunityIcons
-                name="rectangle"
-                size={35}
-                color={Colors.orange}
-              />
-              <Text style={styles.macroText}>Net Carbs</Text>
-            </View>
-          </View>
+          ) : null}
         </View>
-        <Text style={styles.macroText}>per 100 grams weight</Text>
-      </View>
-      <PieChart
-        style={{ height: 250, marginVertical: 12, marginBottom: 20 }}
-        valueAccessor={({ item }) => item.amount}
-        data={data}
-        spacing={1}
-        outerRadius={'95%'}
-      >
-        <Labels />
-      </PieChart>
-    </ScrollView>
+        <View style={styles.legendContainer}>
+          <View style={styles.legendInnerContainer}>
+            <View style={styles.legendRow}>
+              <View style={styles.macroContainer}>
+                <MaterialCommunityIcons
+                  name="rectangle"
+                  size={35}
+                  color={Colors.purple}
+                />
+                <Text style={styles.macroText}>Protein</Text>
+              </View>
+              <View style={styles.macroContainer}>
+                <MaterialCommunityIcons
+                  name="rectangle"
+                  size={35}
+                  color={Colors.pink}
+                />
+                <Text style={styles.macroText}>Fats</Text>
+              </View>
+            </View>
+            <View style={styles.legendRow}>
+              <View style={styles.macroContainer}>
+                <MaterialCommunityIcons
+                  name="rectangle"
+                  size={35}
+                  color={Colors.green}
+                />
+                <Text style={styles.macroText}>Fiber</Text>
+              </View>
+              <View style={styles.macroContainer}>
+                <MaterialCommunityIcons
+                  name="rectangle"
+                  size={35}
+                  color={Colors.orange}
+                />
+                <Text style={styles.macroText}>Net Carbs</Text>
+              </View>
+            </View>
+          </View>
+          <Text style={styles.macroText}>per 100 grams weight</Text>
+        </View>
+        <PieChart
+          style={{ height: 250, marginVertical: 12, marginBottom: 20 }}
+          valueAccessor={({ item }) => item.amount}
+          data={data}
+          spacing={1}
+          outerRadius={'95%'}
+        >
+          <Labels />
+        </PieChart>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -263,9 +278,13 @@ export const foodDetailsScreenOptions = (navData) => {
 };
 
 const styles = StyleSheet.create({
+  foodContainer: {
+    marginTop: 10,
+    alignItems: 'center',
+  },
   image: {
     width: '100%',
-    height: 300,
+    height: (dynamicDeviceWidth() * 3) / 4,
   },
   centered: {
     flex: 1,

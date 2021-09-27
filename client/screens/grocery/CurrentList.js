@@ -95,8 +95,6 @@ const CurrentList = (props) => {
     setIsLoading(false);
   };
 
-  //console.log('lastModifiedlist: ', lastModifiedList);
-
   useEffect(() => {
     setIsLoading(true);
     loadData().then(() => {
