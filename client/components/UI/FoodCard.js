@@ -77,9 +77,6 @@ const FoodCard = (props) => {
   );
 };
 
-console.log('width: ', windowWidth);
-console.log('dyn width: ', dynamicCardWidth());
-
 const styles = StyleSheet.create({
   foodGroup: {
     height: dynamicCardHeight(),

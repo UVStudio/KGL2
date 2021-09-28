@@ -102,6 +102,20 @@ const CurrentList = (props) => {
     });
   }, []);
 
+  const sortObjs = (arr) => {
+    arr.sort((x, y) => {
+      let xName = x.name;
+      let yName = y.name;
+      if (xName < yName) {
+        return -1;
+      }
+      if (xName > yName) {
+        return 1;
+      }
+      return 0;
+    });
+  };
+
   useEffect(() => {
     let options;
     if (search.length === 0) {
@@ -113,6 +127,7 @@ const CurrentList = (props) => {
       options = foods.filter((food) =>
         food.name.toLowerCase().includes(search.toLowerCase())
       );
+      sortObjs(options);
       fadeIn(300);
       fadeAnimation(250);
       setFoodSelection(options);
