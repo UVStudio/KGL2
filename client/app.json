@@ -6,7 +6,7 @@
     "privacy": "public",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/nordin-icon.png",
+    "icon": "./assets/nordin-icon-no-eclipse.png",
     "splash": {
       "image": "./assets/nordin-splash-green-slogan.png",
       "resizeMode": "contain",
