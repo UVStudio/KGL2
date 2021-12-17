@@ -68,6 +68,11 @@ exports.login = asyncHandler(async (req, res, next) => {
 //access  private
 exports.getMe = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id);
+
+  if (!user) {
+    return next(new ErrorResponse('No user is logged in at the moment', 400));
+  }
+
   res.status(200).json({
     success: true,
     data: user,

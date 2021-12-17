@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
-
-import CustomButton from '../../components/UI/CustomButton';
+import Colors from '../../constants/Colors';
 
 const SavedLists = (props) => {
   const groceryLists = useSelector((state) => state.foods.groceryLists);
@@ -20,13 +19,13 @@ const SavedLists = (props) => {
           keyExtractor={(item) => item._id}
           renderItem={(itemData) => (
             <View style={styles.listLabel}>
-              <CustomButton
-                onSelect={() =>
+              <Pressable
+                onPress={() =>
                   selectListHandler(itemData.item._id, itemData.item.name)
                 }
               >
                 <Text style={styles.listText}>{itemData.item.name}</Text>
-              </CustomButton>
+              </Pressable>
             </View>
           )}
         />
@@ -48,21 +47,21 @@ const styles = StyleSheet.create({
   },
   listLabel: {
     width: 280,
-    marginVertical: 9,
+    marginVertical: 8,
     borderRadius: 12,
   },
   selectLabel: {
     fontFamily: 'open-sans-bold',
     marginVertical: 4,
+    marginBottom: 20,
     paddingTop: 5,
     fontSize: 17,
   },
   listText: {
     fontSize: 20,
-    paddingVertical: 12,
-    textAlign: 'center',
+    textAlign: 'left',
     fontFamily: 'open-sans-bold',
-    color: 'white',
+    color: Colors.greenText,
   },
 });
 
