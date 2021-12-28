@@ -9,6 +9,7 @@ import Auth from '../screens/user/Auth';
 import ForgotPassword from '../screens/user/ForgotPassword';
 import Profile from '../screens/user/Profile';
 import Verification from '../screens/user/Verification';
+import Privacy from '../screens/user/Privacy';
 import SavedLists from '../screens/grocery/SavedLists';
 import SavedListDetails, {
   savedListDetailsScreenOptions,
@@ -138,6 +139,7 @@ export const ProfileNavigator = () => {
     <ProfileStackNavigator.Navigator screenOptions={defaultNavOptions}>
       <ProfileStackNavigator.Screen name="Profile" component={Profile} />
       <ProfileStackNavigator.Screen name="Contact Us" component={ContactUs} />
+      <ProfileStackNavigator.Screen name="Privacy" component={Privacy} />
     </ProfileStackNavigator.Navigator>
   );
 };

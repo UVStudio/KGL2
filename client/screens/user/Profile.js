@@ -150,7 +150,6 @@ const Profile = (props) => {
 
   //regex for min 8, max 15, 1 lower, 1 upper, 1 num
   const pwRegex = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,15})');
-  //'(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,15})'
 
   const passwordUpdateHandler = async () => {
     setError(null);
@@ -321,6 +320,16 @@ const Profile = (props) => {
                 }}
               >
                 <Text style={styles.buttonText}>Contact Us</Text>
+              </CustomButton>
+            </View>
+            <View style={styles.buttonContainer}>
+              <CustomButton
+                color={Colors.greenText}
+                onSelect={() => {
+                  props.navigation.navigate('Privacy');
+                }}
+              >
+                <Text style={styles.buttonText}>Privacy</Text>
               </CustomButton>
             </View>
             {isLoggingOut ? (

@@ -13,7 +13,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
 import Colors from '../../constants/Colors';
 
-const ContactUs = (props) => {
+const ContactUs = () => {
   let TouchableCmp = TouchableOpacity;
 
   Platform.OS === 'android' && Platform.Version >= 21

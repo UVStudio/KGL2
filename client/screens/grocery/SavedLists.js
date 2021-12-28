@@ -13,22 +13,19 @@ const SavedLists = (props) => {
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
-        <Text style={styles.selectLabel}>Select which list to load</Text>
-        <FlatList
-          data={groceryLists}
-          keyExtractor={(item) => item._id}
-          renderItem={(itemData) => (
-            <View style={styles.listLabel}>
-              <Pressable
-                onPress={() =>
-                  selectListHandler(itemData.item._id, itemData.item.name)
-                }
-              >
-                <Text style={styles.listText}>{itemData.item.name}</Text>
-              </Pressable>
-            </View>
-          )}
-        />
+        <Text style={styles.selectLabel}>
+          You have {groceryLists.length} saved lists. Select which list to load
+          for today's grocery shopping:
+        </Text>
+        {groceryLists.map((list, index) => (
+          <View key={index} style={styles.listLabel}>
+            <Pressable onPress={() => selectListHandler(list._id, list.name)}>
+              <Text style={styles.listText}>
+                {index + 1}, {list.name}
+              </Text>
+            </Pressable>
+          </View>
+        ))}
       </View>
     </View>
   );
@@ -38,12 +35,11 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center',
     alignItems: 'center',
   },
   container: {
     marginTop: 20,
-    alignItems: 'center',
+    width: '90%',
   },
   listLabel: {
     width: 280,
@@ -52,7 +48,7 @@ const styles = StyleSheet.create({
   },
   selectLabel: {
     fontFamily: 'open-sans-bold',
-    marginVertical: 4,
+    marginVertical: 3,
     marginBottom: 20,
     paddingTop: 5,
     fontSize: 17,

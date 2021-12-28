@@ -6,6 +6,7 @@ import {
   ScrollView,
   Platform,
   KeyboardAvoidingView,
+  ImageBackground,
   StyleSheet,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -72,9 +73,10 @@ const Auth = (props) => {
   }, [error]);
 
   //regex for min 8, max 15, 1 lower, 1 upper, 1 num, 1 special
-  const pwRegex = new RegExp(
-    /^(?=.\d)(?=.[a-z])(?=.[A-Z])(?=.[^a-zA-Z0-9])(?!.*\s).{8,15}$/
-  );
+  // const pwRegex = new RegExp(
+  //   /^(?=.\d)(?=.[a-z])(?=.[A-Z])(?=.[^a-zA-Z0-9])(?!.*\s).{8,15}$/
+  // );
+  const pwRegex = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,15})');
 
   const authHandler = async () => {
     let action;
@@ -91,7 +93,7 @@ const Auth = (props) => {
       if (!pwRegex.test(formState.inputValues.password)) {
         Alert.alert(
           'We need a strong Password',
-          'Please make sure your password has at least 8 and fewer than 16 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.',
+          'Please make sure your password has at least 8 and fewer than 16 characters, 1 uppercase letter, 1 lowercase letter and 1 number.',
           [{ text: 'Okay' }]
         );
         return;
@@ -100,13 +102,13 @@ const Auth = (props) => {
       setIsRegistering(true);
       action = authActions.register(
         formState.inputValues.name,
-        formState.inputValues.email,
+        formState.inputValues.email.toLowerCase(),
         formState.inputValues.password
       );
     } else {
       setIsLogging(true);
       action = authActions.login(
-        formState.inputValues.email,
+        formState.inputValues.email.toLowerCase(),
         formState.inputValues.password
       );
     }
@@ -141,112 +143,122 @@ const Auth = (props) => {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : null}
-      keyboardVerticalOffset={15}
-      style={styles.screen}
+    <ImageBackground
+      source={require('../../assets/kgl-bg.jpg')}
+      resizeMode="cover"
+      style={styles.image}
     >
-      <Card style={styles.authContainer}>
-        <ScrollView style={styles.scrollView}>
-          {isSignup ? (
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
+        keyboardVerticalOffset={15}
+        style={styles.screen}
+      >
+        <Card style={styles.authContainer}>
+          <ScrollView style={styles.scrollView}>
+            {isSignup ? (
+              <Input
+                id="name"
+                label="name"
+                keyboardType="default"
+                autoCapitalize="none"
+                errorText="Please enter your name"
+                onInputChange={inputChangeHandler}
+                initialValue=""
+                required
+                style={styles.textInput}
+              />
+            ) : null}
             <Input
-              id="name"
-              label="name"
-              keyboardType="default"
+              id="email"
+              label="e-mail"
+              keyboardType="email-address"
               autoCapitalize="none"
-              errorText="Please enter your name"
+              errorText="Please enter a valid email"
               onInputChange={inputChangeHandler}
               initialValue=""
               required
               style={styles.textInput}
             />
-          ) : null}
-          <Input
-            id="email"
-            label="e-mail"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            errorText="Please enter a valid email"
-            onInputChange={inputChangeHandler}
-            initialValue=""
-            required
-            style={styles.textInput}
-          />
-          <Input
-            id="password"
-            label="password"
-            keyboardType="default"
-            secureTextEntry
-            autoCapitalize="none"
-            minLength={6}
-            errorText="Please enter a valid password"
-            onInputChange={inputChangeHandler}
-            initialValue=""
-            required
-            style={styles.textInput}
-          />
-          {isSignup ? (
             <Input
-              id="password2"
-              label="confirm password"
+              id="password"
+              label="password"
               keyboardType="default"
               secureTextEntry
               autoCapitalize="none"
               minLength={6}
-              errorText="Please confirm your password"
+              errorText="Please enter a valid password"
               onInputChange={inputChangeHandler}
               initialValue=""
               required
               style={styles.textInput}
             />
-          ) : null}
-          <View style={styles.buttonGroupContainer}>
-            <View style={styles.buttonContainer}>
-              <CustomButton onSelect={authHandler}>
-                <Text style={styles.buttonText}>
-                  {isSignup
-                    ? isRegistering
-                      ? 'Registering...'
-                      : 'Register'
-                    : isLogging
-                    ? 'Logging in..'
-                    : 'Login'}
-                </Text>
-              </CustomButton>
+            {isSignup ? (
+              <Input
+                id="password2"
+                label="confirm password"
+                keyboardType="default"
+                secureTextEntry
+                autoCapitalize="none"
+                minLength={6}
+                errorText="Please confirm your password"
+                onInputChange={inputChangeHandler}
+                initialValue=""
+                required
+                style={styles.textInput}
+              />
+            ) : null}
+            <View style={styles.buttonGroupContainer}>
+              <View style={styles.buttonContainer}>
+                <CustomButton onSelect={authHandler}>
+                  <Text style={styles.buttonText}>
+                    {isSignup
+                      ? isRegistering
+                        ? 'Registering...'
+                        : 'Register'
+                      : isLogging
+                      ? 'Logging in..'
+                      : 'Login'}
+                  </Text>
+                </CustomButton>
+              </View>
+              <View style={styles.buttonContainer}>
+                <CustomButton
+                  onSelect={() => setIsSignup((prevState) => !prevState)}
+                >
+                  <Text style={styles.buttonText}>{`Switch to ${
+                    isSignup ? 'Login' : 'Register'
+                  }`}</Text>
+                </CustomButton>
+              </View>
+              <View style={styles.buttonContainer}>
+                <CustomButton
+                  title="Forgot Password"
+                  onSelect={() => props.navigation.navigate('ForgotPassword')}
+                >
+                  <Text style={styles.buttonText}>Forgot Password</Text>
+                </CustomButton>
+              </View>
             </View>
-            <View style={styles.buttonContainer}>
-              <CustomButton
-                onSelect={() => setIsSignup((prevState) => !prevState)}
-              >
-                <Text style={styles.buttonText}>{`Switch to ${
-                  isSignup ? 'Login' : 'Register'
-                }`}</Text>
-              </CustomButton>
-            </View>
-            <View style={styles.buttonContainer}>
-              <CustomButton
-                title="Forgot Password"
-                onSelect={() => props.navigation.navigate('ForgotPassword')}
-              >
-                <Text style={styles.buttonText}>Forgot Password</Text>
-              </CustomButton>
-            </View>
-          </View>
-        </ScrollView>
-      </Card>
-    </KeyboardAvoidingView>
+          </ScrollView>
+        </Card>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  screen: {
+  image: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  screen: {
+    width: '90%',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
   },
   authContainer: {
-    width: '80%',
+    width: '90%',
     maxWidth: 400,
     maxHeight: 600,
     paddingHorizontal: 10,

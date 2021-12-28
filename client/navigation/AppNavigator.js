@@ -5,7 +5,7 @@ import { AuthNavigator } from './GroceryNavigator';
 import { BottomTabNavigator } from '../navigation/GroceryNavigator';
 import Startup from '../screens/Startup';
 
-const AppNavigator = (props) => {
+const AppNavigator = () => {
   const isAuth = useSelector((state) => !!state.auth.token);
   const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
 

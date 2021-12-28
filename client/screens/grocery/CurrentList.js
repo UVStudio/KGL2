@@ -342,7 +342,7 @@ const CurrentList = (props) => {
     >
       <View style={styles.container}>
         <View style={styles.searchInputContainer}>
-          <Text style={styles.searchLabel}>Search Food</Text>
+          <Text style={styles.searchLabel}>Search Keto Friendly Food</Text>
           <View style={styles.searchLabelContainer}>
             <TextInput
               keyboardType="default"
