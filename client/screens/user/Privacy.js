@@ -48,14 +48,6 @@ const Privacy = () => {
             identification.
           </Text>
           <Text style={styles.text}>
-            <Text style={styles.textBold}>Location information: </Text>When you
-            use the GPS Upload feature on the Nordin mobile app, we use location
-            data through GPS, wifi, or cellular triangulation to determine where
-            the image marker will be placed. We maintain this data only so long
-            as is reasonable to provide our service. Out-of-date data is removed
-            from our database.
-          </Text>
-          <Text style={styles.text}>
             <Text style={styles.textBold}>Log files: </Text>Our server
             automatically gathers some anonymous information about visitors,
             including IP addresses, browser type, language, and the times and
@@ -129,7 +121,7 @@ const Privacy = () => {
           <Text style={styles.statsTitle}>6. Contact us</Text>
           <Text style={styles.text}>
             If you have questions or concerns regarding this Privacy Policy, you
-            should first email us at support@Nordin.com.
+            should first email us at info@uvstudio.ca.
           </Text>
           <Text style={styles.statsTitle}>
             7. How often do we update this Privacy Policy?
