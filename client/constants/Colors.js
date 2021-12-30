@@ -5,7 +5,7 @@ export default {
   greenText: '#0A6D17',
   blue: '#30156E',
   brown: '#6E4215',
-  red: '#FF2908',
+  red: '#FF0000',
   orange: '#F5876F',
   beige: '#FBFBD0',
   pink: '#F9A9C1',

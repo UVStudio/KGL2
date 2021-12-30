@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import LoadingScreen from '../../components/UI/LoadingScreen';
 import CustomButton from '../../components/UI/CustomButton';
 import Input from '../../components/UI/Input';
+import ConfirmCard from '../../components/UI/ConfirmCard';
 import * as authActions from '../../store/actions/auth';
 import * as userActions from '../../store/actions/user';
 import Colors from '../../constants/Colors';
@@ -48,6 +49,7 @@ const Profile = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
+  const [deleteText, setDeleteText] = useState(false);
   const [isProfileUpdating, setIsProfileUpdating] = useState(false);
   const [isPasswordUpdating, setIsPasswordUpdating] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -163,7 +165,6 @@ const Profile = (props) => {
       setIsPasswordUpdating(false);
       return;
     }
-
     if (!pwRegex.test(passwordFormState.inputValues.newPassword)) {
       setIsPasswordUpdating(false);
       Alert.alert(
@@ -173,7 +174,6 @@ const Profile = (props) => {
       );
       return;
     }
-
     try {
       await dispatch(userActions.updatePassword(passwordFormState.inputValues));
       setMessage('Password Updated.');
@@ -193,6 +193,12 @@ const Profile = (props) => {
     } catch (err) {
       setError(err.message);
     }
+  };
+
+  const deleteConfirm = () => {
+    setDeleteText(
+      'Are you sure you want to delete your account? All your data will be permanently deleted.'
+    );
   };
 
   if (isLoading) {
@@ -348,9 +354,26 @@ const Profile = (props) => {
                 </CustomButton>
               </View>
             )}
+            <View style={styles.buttonContainerDelete}>
+              <CustomButton
+                color={Colors.red}
+                onSelect={() => {
+                  deleteConfirm();
+                }}
+              >
+                <Text style={styles.buttonText}>Delete Account</Text>
+              </CustomButton>
+            </View>
           </View>
         </ScrollView>
       </View>
+      {deleteText ? (
+        <ConfirmCard
+          text={deleteText}
+          toShow={setDeleteText}
+          toError={setError}
+        />
+      ) : null}
     </KeyboardAvoidingView>
   );
 };
@@ -390,6 +413,10 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: 240,
     marginVertical: 4,
+  },
+  buttonContainerDelete: {
+    width: 240,
+    marginVertical: 30,
   },
   container: {
     width: 300,

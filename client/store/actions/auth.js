@@ -74,6 +74,17 @@ export const login = (email, password) => {
   };
 };
 
+export const deleteCurrentUser = () => {
+  return async (dispatch) => {
+    dispatch(logout());
+    try {
+      await axios.delete(`${CURRENT_IP}/api/auth/`);
+    } catch (err) {
+      throw new Error(err.response.data.error);
+    }
+  };
+};
+
 export const forgotPassword = (email) => {
   return async (dispatch) => {
     const config = {

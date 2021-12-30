@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import Colors from '../../constants/Colors';
 
@@ -14,8 +14,9 @@ const SavedLists = (props) => {
     <View style={styles.screen}>
       <View style={styles.container}>
         <Text style={styles.selectLabel}>
-          You have {groceryLists.length} saved lists. Select which list to load
-          for today's grocery shopping:
+          You have {groceryLists.length} saved{' '}
+          {groceryLists.length === 1 ? 'list' : 'lists'}. Select which list to
+          load for today's grocery shopping:
         </Text>
         {groceryLists.map((list, index) => (
           <View key={index} style={styles.listLabel}>
