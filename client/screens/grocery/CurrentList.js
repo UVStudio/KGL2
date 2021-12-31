@@ -154,23 +154,23 @@ const CurrentList = (props) => {
     return lists[0];
   };
 
-  if (listLoaded && !isLoading) {
-    loadedFoodsList = mutableGroceryLists.find(
-      (list) => list._id === listLoaded.listId
-    );
-    listFoods = loadedFoodsList.groceryListArray; //if user loads a saved list
-    listFoodsName = loadedFoodsList.name;
-    listFoodsId = loadedFoodsList._id;
-  } else if (!listLoaded && !isLoading) {
+  if (mutableGroceryLists.length > 0 && !listLoaded && !isLoading) {
     lastModifiedList = sortLastModified(mutableGroceryLists);
     listFoods = lastModifiedList.groceryListArray; //default list - user's latest modified list
     listFoodsName = lastModifiedList.name;
     listFoodsId = lastModifiedList._id;
   }
 
-  // console.log('listLoaded: ', listLoaded);
-  // console.log('loadedFoodsList: ', loadedFoodsList);
-  // console.log('mutableGroceryLists: ', mutableGroceryLists);
+  if (mutableGroceryLists.length > 0 && listLoaded && !isLoading) {
+    loadedFoodsList = mutableGroceryLists.find(
+      (list) => list._id === listLoaded.listId
+    );
+    if (loadedFoodsList) {
+      listFoods = loadedFoodsList.groceryListArray; //if user loads a saved list
+      listFoodsName = loadedFoodsList.name;
+      listFoodsId = loadedFoodsList._id;
+    }
+  }
 
   useEffect(() => {
     if (listFoodsId) {
@@ -275,7 +275,7 @@ const CurrentList = (props) => {
     }
   };
 
-  const saveNewListHandler = async (foods, name) => {
+  const saveNewListHandler = async (foods, name = listName) => {
     //need to empty listLoaded if user is saving a new list,
     //so the default would go to the latest modified list
     listLoaded = null;
@@ -330,7 +330,7 @@ const CurrentList = (props) => {
     );
   }
 
-  if (isLoading) {
+  if (isLoading || mutableGroceryLists.length === 0) {
     return (
       <View style={styles.centered}>
         <LoadingScreen />
