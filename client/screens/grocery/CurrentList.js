@@ -168,6 +168,10 @@ const CurrentList = (props) => {
     listFoodsId = lastModifiedList._id;
   }
 
+  // console.log('listLoaded: ', listLoaded);
+  // console.log('loadedFoodsList: ', loadedFoodsList);
+  // console.log('mutableGroceryLists: ', mutableGroceryLists);
+
   useEffect(() => {
     if (listFoodsId) {
       dispatch(foodsActions.setCurrentList(listFoodsId));
