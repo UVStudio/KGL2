@@ -15,6 +15,7 @@ import Input from '../../components/UI/Input';
 import ConfirmCard from '../../components/UI/ConfirmCard';
 import * as authActions from '../../store/actions/auth';
 import * as userActions from '../../store/actions/user';
+import * as foodsActions from '../../store/actions/foods';
 import Colors from '../../constants/Colors';
 
 import { FORM_INPUT_UPDATE, PASSWORD_INPUT_UPDATE } from '../../store/types';
@@ -189,6 +190,7 @@ const Profile = (props) => {
     setError(null);
     setIsLoggingOut(true);
     try {
+      await dispatch(foodsActions.clearFoodsState());
       await dispatch(authActions.logout());
     } catch (err) {
       setError(err.message);

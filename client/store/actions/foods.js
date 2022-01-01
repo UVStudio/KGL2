@@ -11,6 +11,7 @@ import {
   SET_CURRENT_LIST,
   DEL_LIST,
   ADD_TO_CURR_MUTABLE_LISTS,
+  CLEAR_FAVFOODS_STATE,
 } from '../types';
 import { CURRENT_IP } from '../../serverConfigs';
 
@@ -237,5 +238,11 @@ export const deleteListById = (id) => {
     } catch (err) {
       throw new Error('Cannot connect with server. Please try again.');
     }
+  };
+};
+
+export const clearFoodsState = () => {
+  return {
+    type: CLEAR_FAVFOODS_STATE,
   };
 };

@@ -9,8 +9,8 @@ import {
   GET_LISTS,
   DEL_LIST,
   SET_CURRENT_LIST,
-  CLEAR_CURRENT_LIST,
   ADD_TO_CURR_MUTABLE_LISTS,
+  CLEAR_FAVFOODS_STATE,
 } from '../types';
 
 const initialState = {
@@ -77,6 +77,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         mutableGroceryLists: action.foods,
+      };
+    case CLEAR_FAVFOODS_STATE:
+      return {
+        ...state,
+        favFoods: [],
       };
   }
   return state;

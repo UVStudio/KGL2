@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
+import LoadingScreen from '../../components/UI/LoadingScreen';
 import FoodCard from '../../components/UI/FoodCard';
+import * as foodsActions from '../../store/actions/foods';
 
 const FavFoods = (props) => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const foods = useSelector((state) => state.foods.foods);
   const favFoods = useSelector((state) => state.foods.favFoods);
+
+  const dispatch = useDispatch();
 
   const favFoodsFullData = [];
 
@@ -25,11 +31,28 @@ const FavFoods = (props) => {
 
   search(foods, favFoods);
 
+  const getFavs = async () => {
+    await dispatch(foodsActions.getFavs());
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    getFavs();
+  }, []);
+
   const selectFoodDetailsHandler = (name) => {
     props.navigation.navigate('Food Details', {
       name,
     });
   };
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <LoadingScreen />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -74,6 +97,11 @@ const styles = StyleSheet.create({
     fontFamily: 'open-sans',
     fontSize: 18,
     color: 'black',
+  },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
