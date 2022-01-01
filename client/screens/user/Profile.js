@@ -88,11 +88,12 @@ const Profile = (props) => {
     }
   );
 
+  const getUser = async () => {
+    await dispatch(userActions.getUser());
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    const getUser = async () => {
-      await dispatch(userActions.getUser());
-      setIsLoading(false);
-    };
     getUser();
   }, []);
 

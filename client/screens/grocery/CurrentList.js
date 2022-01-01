@@ -31,11 +31,14 @@ if (
 }
 
 const CurrentList = (props) => {
+  //const user = useSelector((state) => state.user.user);
   const foods = useSelector((state) => state.foods.foods);
   const groceryLists = useSelector((state) => state.foods.groceryLists);
   let mutableGroceryLists = useSelector(
     (state) => state.foods.mutableGroceryLists
   );
+
+  //console.log('user: ', user);
 
   const fadeAnimation = (duration) => {
     LayoutAnimation.configureNext(
@@ -86,6 +89,7 @@ const CurrentList = (props) => {
     setError(null);
     setIsLoading(true);
     try {
+      //await dispatch(userActions.getUser());
       await dispatch(foodsActions.getFoods());
       await dispatch(foodsActions.getFavs());
       await dispatch(foodsActions.getSavedLists());
@@ -96,10 +100,8 @@ const CurrentList = (props) => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
-    loadData().then(() => {
-      setIsLoading(false);
-    });
+    loadData();
+    setIsLoading(false);
   }, []);
 
   const sortObjs = (arr) => {
@@ -318,7 +320,7 @@ const CurrentList = (props) => {
           <View style={{ marginTop: 36 }}>
             <CustomButton
               title="Try again"
-              onSelect={loadData}
+              onSelect={() => loadData()}
               color={Colors.greenText}
               style={{ paddingHorizontal: 9, paddingVertical: 5 }}
             >
