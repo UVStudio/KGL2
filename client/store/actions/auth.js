@@ -176,5 +176,5 @@ export const initialGroceryList = async (foods, name) => {
       'Content-Type': 'application/json',
     },
   };
-  await axios.post('http://192.168.0.197:5000/api/groceryList/', body, config);
+  await axios.post(`${CURRENT_IP}/api/groceryList/`, body, config);
 };
