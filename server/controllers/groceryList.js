@@ -12,6 +12,8 @@ exports.getSavedLists = asyncHandler(async (req, res, next) => {
     return next(ErrorResponse('You do not have any saved grocery list', 400));
   }
 
+  console.log(groceryLists);
+
   res.status(200).json({
     success: true,
     data: groceryLists,

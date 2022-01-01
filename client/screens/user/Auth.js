@@ -113,6 +113,7 @@ const Auth = (props) => {
       );
     }
     setError(null);
+    setIsRegistering(false);
     try {
       await dispatch(action);
     } catch (err) {
