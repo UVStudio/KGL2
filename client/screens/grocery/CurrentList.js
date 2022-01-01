@@ -39,8 +39,6 @@ const CurrentList = (props) => {
     (state) => state.foods.mutableGroceryLists
   );
 
-  console.log('gro lists: ', groceryLists);
-
   const fadeAnimation = (duration) => {
     LayoutAnimation.configureNext(
       LayoutAnimation.create(
