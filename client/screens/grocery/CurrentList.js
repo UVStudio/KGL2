@@ -21,6 +21,7 @@ import { MaterialIcons, Ionicons, Entypo } from '@expo/vector-icons';
 import CustomButton from '../../components/UI/CustomButton';
 import LoadingScreen from '../../components/UI/LoadingScreen';
 import * as foodsActions from '../../store/actions/foods';
+import * as userActions from '../../store/actions/user';
 import Colors from '../../constants/Colors';
 
 if (
@@ -31,14 +32,14 @@ if (
 }
 
 const CurrentList = (props) => {
-  //const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user.user);
   const foods = useSelector((state) => state.foods.foods);
   const groceryLists = useSelector((state) => state.foods.groceryLists);
   let mutableGroceryLists = useSelector(
     (state) => state.foods.mutableGroceryLists
   );
 
-  //console.log('user: ', user);
+  console.log('user: ', user);
 
   const fadeAnimation = (duration) => {
     LayoutAnimation.configureNext(
@@ -89,7 +90,7 @@ const CurrentList = (props) => {
     setError(null);
     setIsLoading(true);
     try {
-      //await dispatch(userActions.getUser());
+      await dispatch(userActions.getUser());
       await dispatch(foodsActions.getFoods());
       await dispatch(foodsActions.getFavs());
       await dispatch(foodsActions.getSavedLists());

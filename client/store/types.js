@@ -17,6 +17,7 @@ export const CLEAR_FAVFOODS_STATE = 'CLEAR_FAVFOODS_STATE';
 //User
 export const GET_USER = 'GET_USER';
 export const UPDATE_PROFILE = 'UPDATE_PROFILE';
+export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 
 //Authentication
 export const AUTHENTICATE = 'AUTHENTICATE';

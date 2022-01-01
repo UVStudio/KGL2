@@ -11,6 +11,7 @@ export const getUser = () => {
       }
 
       const user = response.data.data;
+      console.log('user action: ', user);
 
       dispatch({
         type: GET_USER,
