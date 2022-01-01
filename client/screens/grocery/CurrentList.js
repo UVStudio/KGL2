@@ -32,14 +32,12 @@ if (
 }
 
 const CurrentList = (props) => {
-  const user = useSelector((state) => state.user.user);
+  //const user = useSelector((state) => state.user.user);
   const foods = useSelector((state) => state.foods.foods);
   const groceryLists = useSelector((state) => state.foods.groceryLists);
   let mutableGroceryLists = useSelector(
     (state) => state.foods.mutableGroceryLists
   );
-
-  console.log('user: ', user);
 
   const fadeAnimation = (duration) => {
     LayoutAnimation.configureNext(
@@ -94,6 +92,7 @@ const CurrentList = (props) => {
       await dispatch(foodsActions.getFoods());
       await dispatch(foodsActions.getFavs());
       await dispatch(foodsActions.getSavedLists());
+      setIsLoading(false);
     } catch (err) {
       setError(err.message);
     }
@@ -173,6 +172,10 @@ const CurrentList = (props) => {
       listFoodsName = loadedFoodsList.name;
       listFoodsId = loadedFoodsList._id;
     }
+  }
+
+  if (mutableGroceryLists.length === 0) {
+    listFoods = [];
   }
 
   useEffect(() => {
@@ -333,7 +336,7 @@ const CurrentList = (props) => {
     );
   }
 
-  if (isLoading || mutableGroceryLists.length === 0) {
+  if (isLoading) {
     return (
       <View style={styles.centered}>
         <LoadingScreen />
