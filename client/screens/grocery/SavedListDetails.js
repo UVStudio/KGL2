@@ -137,18 +137,23 @@ const SavedListDetails = (props) => {
           <Text style={styles.buttonText}>Load this list</Text>
         </CustomButton>
       </View>
+      <View style={styles.listFoodContainer}>
+        {foodItemsData.length === 0 ? (
+          <Text style={styles.selectLabel}>
+            You do not have any foods in this grocery list.
+          </Text>
+        ) : null}
+      </View>
       <FlatList
         data={foodItemsData}
         keyExtractor={(item) => item._id}
         renderItem={(itemData) => (
-          <View style={styles.listFoodContainer}>
-            <Text
-              style={styles.listText}
-              onPress={() => selectFoodDetailsHandler(itemData.item.name)}
-            >
-              {itemData.item.name}
-            </Text>
-          </View>
+          <Text
+            style={styles.listText}
+            onPress={() => selectFoodDetailsHandler(itemData.item.name)}
+          >
+            {itemData.item.name}
+          </Text>
         )}
       />
       <View style={styles.buttonContainer}>
@@ -187,6 +192,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'open-sans',
     color: '#111',
+  },
+  selectLabel: {
+    fontFamily: 'open-sans-bold',
+    marginVertical: 3,
+    marginBottom: 20,
+    paddingTop: 5,
+    fontSize: 17,
   },
   buttonContainer: {
     marginBottom: 20,
