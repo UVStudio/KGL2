@@ -163,9 +163,7 @@ const FoodDetails = (props) => {
 
   return (
     <View style={styles.foodContainer}>
-      <ScrollView
-        style={({ backgroundColor: 'yellow' }, { width: dynamicDeviceWidth() })}
-      >
+      <ScrollView style={{ width: dynamicDeviceWidth() }}>
         <ImageBackground
           style={styles.image}
           source={{ uri: selectedFood.imageUrl }}
@@ -181,7 +179,7 @@ const FoodDetails = (props) => {
         </ImageBackground>
         <View style={styles.action}>
           <Text style={styles.title}>{foodName}</Text>
-          <View style={{ marginTop: 12 }}>
+          <View style={{ marginTop: 12, width: '80%' }}>
             {!isLoading ? (
               <CustomButton onSelect={() => favHandler(selectedFood._id)}>
                 <Text style={styles.buttonText}>
@@ -199,7 +197,7 @@ const FoodDetails = (props) => {
             )}
           </View>
           {!onListOrNot ? (
-            <View style={{ marginTop: 12 }}>
+            <View style={{ width: '80%' }}>
               <CustomButton
                 onSelect={() =>
                   addFoodToCurrMutableListHandler(
@@ -299,6 +297,7 @@ const styles = StyleSheet.create({
   },
   action: {
     marginVertical: 10,
+    width: '100%',
     alignItems: 'center',
   },
   title: {

@@ -1,51 +1,35 @@
 import React from 'react';
-import {
-  View,
-  Platform,
-  TouchableOpacity,
-  TouchableNativeFeedback,
-  StyleSheet,
-} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { View, Pressable, StyleSheet } from 'react-native';
 import Colors from '../../constants/Colors';
 
 const CustomButton = (props) => {
-  let TouchableCmp = TouchableOpacity;
-
-  Platform.OS === 'android' && Platform.Version >= 21
-    ? (TouchableCmp = TouchableNativeFeedback)
-    : TouchableOpacity;
-
   return (
     <View style={styles.shadow}>
-      <LinearGradient
-        style={styles.customButton}
-        colors={[Colors.greenMedium, Colors.greenText]}
-        locations={[0, 0.5]}
-      >
-        <TouchableCmp style={{ ...props.style }} onPress={props.onSelect}>
-          {props.children}
-        </TouchableCmp>
-      </LinearGradient>
+      <Pressable style={styles.customButton} onPress={props.onSelect}>
+        {props.children}
+      </Pressable>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   customButton: {
+    backgroundColor: Colors.primary,
+    marginVertical: 5,
+    width: '100%',
     borderRadius: 12,
     shadowColor: '#888',
-    shadowOpacity: 0.5,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 6,
-    elevation: 4,
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 5,
+    elevation: 3,
   },
   shadow: {
     shadowColor: '#888',
     shadowOpacity: 0.5,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 6,
-    elevation: 4,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 5,
+    elevation: 3,
   },
 });
 

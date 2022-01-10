@@ -23,7 +23,7 @@
     },
     "android": {
       "package": "com.ketogrocerylistapp.nordin",
-      "versionCode": 7,
+      "versionCode": 8,
       "icon": "./assets/nordin-adaptive-icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/nordin-adaptive-icon.png",

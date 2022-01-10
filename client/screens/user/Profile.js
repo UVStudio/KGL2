@@ -415,7 +415,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: 240,
-    marginVertical: 4,
   },
   buttonContainerDelete: {
     width: 240,

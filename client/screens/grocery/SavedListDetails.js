@@ -129,20 +129,18 @@ const SavedListDetails = (props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <CustomButton
-          style={{ width: 350 }}
-          onSelect={() => bringListIdToFront(listId, listName)}
-        >
-          <Text style={styles.buttonText}>Load this list</Text>
-        </CustomButton>
-      </View>
       <View style={styles.listFoodContainer}>
         {foodItemsData.length === 0 ? (
           <Text style={styles.selectLabel}>
             You do not have any foods in this grocery list.
           </Text>
-        ) : null}
+        ) : (
+          <Text style={styles.selectLabel}>
+            You have {foodItemsData.length}{' '}
+            {foodItemsData.length === 1 ? 'item' : 'items'} in this grocery
+            list.
+          </Text>
+        )}
       </View>
       <FlatList
         data={foodItemsData}
@@ -157,6 +155,9 @@ const SavedListDetails = (props) => {
         )}
       />
       <View style={styles.buttonContainer}>
+        <CustomButton onSelect={() => bringListIdToFront(listId, listName)}>
+          <Text style={styles.buttonText}>Load this list</Text>
+        </CustomButton>
         <CustomButton onSelect={() => deleteListByIdHandler(listId)}>
           <Text style={styles.buttonText}>Delete this list</Text>
         </CustomButton>
@@ -192,6 +193,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'open-sans',
     color: '#111',
+    marginVertical: 2,
   },
   selectLabel: {
     fontFamily: 'open-sans-bold',
