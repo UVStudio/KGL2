@@ -162,7 +162,6 @@ const Auth = (props) => {
                 label="name"
                 keyboardType="default"
                 autoCapitalize="none"
-                errorText="Please enter your name"
                 onInputChange={inputChangeHandler}
                 initialValue=""
                 required
@@ -174,7 +173,6 @@ const Auth = (props) => {
               label="e-mail"
               keyboardType="email-address"
               autoCapitalize="none"
-              errorText="Please enter a valid email"
               onInputChange={inputChangeHandler}
               initialValue=""
               required
@@ -187,7 +185,6 @@ const Auth = (props) => {
               secureTextEntry
               autoCapitalize="none"
               minLength={6}
-              errorText="Please enter a valid password"
               onInputChange={inputChangeHandler}
               initialValue=""
               required
@@ -201,7 +198,6 @@ const Auth = (props) => {
                 secureTextEntry
                 autoCapitalize="none"
                 minLength={6}
-                errorText="Please confirm your password"
                 onInputChange={inputChangeHandler}
                 initialValue=""
                 required

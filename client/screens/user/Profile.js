@@ -227,7 +227,6 @@ const Profile = (props) => {
               label="name"
               keyboardType="default"
               autoCapitalize="none"
-              errorText="Please enter name"
               onInputChange={inputChangeHandler}
               initialValue={user ? user.name : null}
               initiallyValid={!!user}
@@ -238,7 +237,6 @@ const Profile = (props) => {
               keyboardType="email-address"
               email
               autoCapitalize="none"
-              errorText="Please enter valid email address"
               onInputChange={inputChangeHandler}
               initialValue={user ? user.email : null}
               initiallyValid={!!user}
@@ -267,7 +265,6 @@ const Profile = (props) => {
               secureTextEntry
               minLength={8}
               autoCapitalize="none"
-              errorText="Please enter current password"
               onInputChange={passwordInputChangeHandler}
               initialValue=""
               required
@@ -281,7 +278,6 @@ const Profile = (props) => {
               secureTextEntry
               minLength={8}
               autoCapitalize="none"
-              errorText="Please enter new password"
               onInputChange={passwordInputChangeHandler}
               initialValue=""
               required
@@ -295,7 +291,6 @@ const Profile = (props) => {
               secureTextEntry
               minLength={8}
               autoCapitalize="none"
-              errorText="Please confirm new password"
               onInputChange={passwordInputChangeHandler}
               initialValue=""
               required

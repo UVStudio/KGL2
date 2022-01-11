@@ -28,7 +28,7 @@ export default (state = initialState, action) => {
     case LOGOUT:
       return {
         ...initialState,
-        didTryAutoLogin: true,
+        didTryAutoLogin: false,
       };
     case FORGOT_PASSWORD:
       return {

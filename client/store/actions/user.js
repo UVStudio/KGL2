@@ -50,8 +50,6 @@ export const updatePassword = (password) => {
   return async () => {
     const { oldPassword, newPassword, confirmNewPassword } = password;
 
-    //console.log(password);
-
     if (newPassword !== confirmNewPassword) {
       return new Error(
         'Please check your new password fields to make sure they are the same.'
